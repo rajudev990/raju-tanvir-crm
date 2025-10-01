@@ -23,6 +23,7 @@
             </div>
         </div>
 
+        @include('errors.validation')
         <form action="{{ route('form.step.post', 1) }}" method="POST" id="schoolForm">
             @csrf
             <!-- Hidden input to store selected school -->

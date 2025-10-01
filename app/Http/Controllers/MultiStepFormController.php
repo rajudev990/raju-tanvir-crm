@@ -79,13 +79,16 @@ class MultiStepFormController extends Controller
         ]);
     }
 
-
     // ===================== Show step =====================
     public function showStep($step)
     {
         $submissionId = Session::get('submission_id');
-        $data = [];
 
+        // যদি session নেই অথবা expired → শুধুমাত্র Step 1 দেখাবে
+        if (!$submissionId) {
+            $step = 1;
+        }
+        $data = [];
         if ($submissionId) {
             $submission = FormSubmission::with('students.course', 'students.course.year', 'students.course.package', 'students.group')->find($submissionId);
             if ($submission) $data = $submission->toArray();
@@ -94,20 +97,24 @@ class MultiStepFormController extends Controller
             // submitted packages থাকলে আলাদা key করে পাঠালাম
             $data['submitted_packages'] = $submission->packages ?? [];
         }
-
         $schools = School::where('status', 1)->get();
         $groups = StudentGroup::where('status', 1)->get();
-
-
-
         return view("student.step{$step}", compact('data', 'schools', 'groups'));
     }
 
     // ===================== Handle step POST =====================
     public function postStep(Request $request, $step)
     {
+
+
         $submissionId = Session::get('submission_id');
         $sessionUserId = Session::get('user_id'); // session user id
+
+        // যদি session expire হয় বা নেই → Step 1 শুরু হবে
+        if (!$submissionId && $step != 1) {
+            return redirect()->route('form.step', 1)->with('info', 'Please Select School.');
+        }
+
 
         // ================= Step 1 =================
         if ($step == 1) {
@@ -125,6 +132,7 @@ class MultiStepFormController extends Controller
             );
 
             Session::put('submission_id', $submission->id);
+            Session::put('user_id', $sessionUserId);
         }
 
         // ================= Step 2 =================
@@ -302,37 +310,52 @@ class MultiStepFormController extends Controller
             $submission = FormSubmission::findOrFail($submissionId);
 
             // Amount calculation (students * 15)
-            $totalAmount = (count($submission->students) * 15) * 100; // cents for Stripe
+            $totalAmount = $request->total_amount * 100; // Stripe works with cents/pence
 
-            // ==================== STRIPE PAYMENT ====================
-            \Stripe\Stripe::setApiKey(env('STRIPE_SECRET')); // test/live key
+            \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
 
             try {
+                // 1️⃣ যদি ফ্রন্টএন্ড থেকে payment_intent_id আসে (confirm হওয়া)
+                if ($request->has('payment_intent_id')) {
+                    $paymentIntent = \Stripe\PaymentIntent::retrieve($request->payment_intent_id);
+
+                    if ($paymentIntent->status === 'succeeded') {
+                        // ✅ Save payment success
+                        $submission->update([
+                            'payment_email'        => $validated['payment_email'],
+                            'payment_country'      => $validated['payment_country'],
+                            'payment_postal_code'  => $validated['payment_postal_code'],
+                            'payment_accept'       => $validated['payment_accept'],
+                            'card_holder_name'     => $validated['card_holder_name'],
+                            'status'               => 'paid',
+                            'paid_amount'          => $totalAmount / 100,
+                            'total_amount'         => $totalAmount / 100,
+                            'transaction_id'       => $paymentIntent->id,
+                            'currency'             => $paymentIntent->currency,
+                            'payment_date'         => now(),
+                        ]);
+
+                        Session::forget('submission_id'); // ✅ Session destroy
+
+                        return redirect()->route('form.step', 1)
+                            ->with('success', 'Form submitted & payment successful!');
+                    } else {
+                        return back()->withErrors(['payment_error' => 'Payment not completed.']);
+                    }
+                }
+
+                // 2️⃣ নতুন PaymentIntent তৈরি (যদি confirm না হয়)
                 $paymentIntent = \Stripe\PaymentIntent::create([
                     'amount' => $totalAmount,
-                    'currency' => 'usd', // change currency if needed
-                    'payment_method_types' => ['card'],
+                    'currency' => 'gbp',
+                    'automatic_payment_methods' => ['enabled' => true],
                     'receipt_email' => $validated['payment_email'],
                 ]);
 
-                $submission->update([
-                    'payment_email' => $validated['payment_email'],
-                    'payment_country' => $validated['payment_country'],
-                    'payment_postal_code' => $validated['payment_postal_code'],
-                    'payment_accept' => $validated['payment_accept'],
-                    'card_holder_name' => $validated['card_holder_name'],
-                    'status' => 'paid',
-                    'paid_amount' => $totalAmount / 100,
-                    'total_amount' => $totalAmount / 100,
-                    'transaction_id' => $paymentIntent->id,
-                    'currency' => 'usd',
-                    'payment_date' => now(),
+                return view('student.payment-confirm', [
+                    'clientSecret' => $paymentIntent->client_secret,
+                    'submissionId' => $submission->id,
                 ]);
-
-                Session::forget('submission_id');
-
-                return redirect()->route('form.step', 1)
-                    ->with('success', 'Form submitted & payment successful!');
             } catch (\Exception $e) {
                 return back()->withErrors(['payment_error' => $e->getMessage()]);
             }

@@ -16,15 +16,7 @@
                 </div>
             </div>
         </div>
-        @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endif
+        @include('errors.validation')
         <form action="{{ route('form.step.post', 5) }}" method="POST">
             @csrf
 

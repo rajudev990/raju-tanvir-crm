@@ -16,8 +16,8 @@
                 </div>
             </div>
         </div>
-
-       <form action="{{ route('form.step.post', 2) }}" method="POST" enctype="multipart/form-data" id="guardianForm">
+        @include('errors.validation')
+       <form action="{{ route('form.step.post', 2) }}" method="POST" enctype="multipart/form-data" id="from">
         @csrf
 
         <div class="row d-flex justify-content-center">
