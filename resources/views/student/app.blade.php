@@ -10,7 +10,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/country-select-js/2.0.1/css/countrySelect.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/country-select-js@2.0.1/build/css/countrySelect.min.css"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/css/select2.min.css" rel="stylesheet" />
 
 
 
@@ -273,7 +275,39 @@
         .subject-badge.active{
             background-color: #183E77 !important;
         }
-        
+        /* Phone */
+        .select2-container--default .select2-selection--single {
+        -webkit-appearance: none !important;
+        appearance: none !important;
+        background-color: #183e77 !important;
+        border: none !important;
+        border-radius: 8px !important;
+        color: #fff !important;
+        height: 50px !important;
+        letter-spacing: -.03125rem !important;
+        padding: 12px 24px !important;
+        width: 100% !important;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__rendered{
+        color: #fff;
+    }
+        .iti {
+            display: block !important;
+        }
+
+        .iti input{
+            padding-left: 95px !important;
+        }
+        .iti input:focus{
+            padding-left: 95px !important;
+        }
+        .iti--separate-dial-code .iti__selected-dial-code
+        {
+            color: #FFF;
+        }
+        .iti__country{
+            color: #000 !important;
+        }
     </style>
 </head>
 
@@ -290,6 +324,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/js/select2.full.min.js"></script>
+
 
     <script type="text/javascript">
         // ---- form validation
