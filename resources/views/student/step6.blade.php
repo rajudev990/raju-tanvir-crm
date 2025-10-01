@@ -21,6 +21,7 @@
                 <h3 class="text-center" style="color: #AE9A66;font-size:24px;font-weight:500;">Choose a Pricing Package That Suits You Best</h3>
             </div>
         </div>
+        @include('errors.validation')
         <form action="{{ route('form.step.post', 6) }}" method="POST">
             @csrf
             <div class="row d-flex justify-content-center">
