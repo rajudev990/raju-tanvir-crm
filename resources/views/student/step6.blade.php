@@ -49,7 +49,7 @@
                                     </div>
                                 </div>
                                 <div class="text-center mt-3">
-                                    <a class="btn text-center" style="background: #AE9A66;padding:15px 24px;border-radius:99px;font-size:16px;font-weight:600;color:#FFF;"><i class="fa fa-edit"></i> Edit</a>
+                                    <a href="{{ route('parent-update',$data['id']) }}" class="btn text-center" style="background: #AE9A66;padding:15px 24px;border-radius:99px;font-size:16px;font-weight:600;color:#FFF;"><i class="fa fa-edit"></i> Edit</a>
                                 </div>
                             </div>
 
@@ -83,12 +83,12 @@
 
 
 
-                                @if(!empty($student['core_subjects']))
+                                @if(!empty($student['core_subject']))
                                 <div class="col-lg-12 mt-3">
-                                    <div class="form-group mb-4">
+                                    <div class="form-group">
                                         <label style="font-size:20px;font-weight:500;color:#AE9A66;">Core Subjects</label>
                                         <div>
-                                            @foreach(explode(',', $student['core_subjects']) as $subject)
+                                            @foreach(explode(',', $student['core_subject']) as $subject)
                                             <span class="badge mb-2"
                                                 style="background-color:#183e77;
                                                                         border-radius:999px;
@@ -103,12 +103,12 @@
                                 </div>
                                 @endif
 
-                                @if(!empty($student['islamic_subjects']))
+                                @if(!empty($student['islamic_subject']))
                                 <div class="col-lg-12 mt-3">
-                                    <div class="form-group mb-4">
+                                    <div class="form-group">
                                         <label style="font-size:20px;font-weight:500;color:#AE9A66;">Free Islamic Subject</label>
                                         <div>
-                                            @foreach(explode(',', $student['islamic_subjects']) as $subject)
+                                            @foreach(explode(',', $student['islamic_subject']) as $subject)
                                             <span class="badge mb-2"
                                                 style="background-color:#183e77;
                                                                         border-radius:999px;
@@ -125,7 +125,7 @@
 
                                 @if(!empty($student['additional_subject']))
                                 <div class="col-lg-12 mt-3">
-                                    <div class="form-group mb-4">
+                                    <div class="form-group">
                                         <label style="font-size:20px;font-weight:500;color:#AE9A66;">Additional Subjects</label>
                                         <div>
                                             @foreach(explode(',', $student['additional_subject']) as $subject)
@@ -143,12 +143,12 @@
                                 </div>
                                 @endif
 
-                                @if(!empty($student['hifdh_subjects']))
+                                @if(!empty($student['hifdh_subject']))
                                 <div class="col-lg-12 mt-3">
-                                    <div class="form-group mb-4">
+                                    <div class="form-group">
                                         <label style="font-size:20px;font-weight:500;color:#AE9A66;">Additional Hifdh/Hifz Curriculum</label>
                                         <div>
-                                            @foreach(explode(',', $student['hifdh_subjects']) as $subject)
+                                            @foreach(explode(',', $student['hifdh_subject']) as $subject)
                                             <span class="badge mb-2"
                                                 style="background-color:#183e77;
                                                                         border-radius:999px;
@@ -164,12 +164,12 @@
                                 @endif
 
 
-                                @if(!empty($student['language_subjects']))
+                                @if(!empty($student['language']))
                                 <div class="col-lg-12 mt-3">
-                                    <div class="form-group mb-4">
+                                    <div class="form-group">
                                         <label style="font-size:20px;font-weight:500;color:#AE9A66;">Language</label>
                                         <div>
-                                            @foreach(explode(',', $student['language_subjects']) as $subject)
+                                            @foreach(explode(',', $student['language']) as $subject)
                                             <span class="badge mb-2"
                                                 style="background-color:#183e77;
                                                                         border-radius:999px;
@@ -188,7 +188,7 @@
 
                             </div>
                             <div class="mt-3">
-                                <a class="btn text-center" style="background: #AE9A66;padding:15px 24px;border-radius:99px;font-size:16px;font-weight:600;color:#FFF;"><i class="fa fa-edit"></i> Edit</a>
+                                <a href="{{ route('students.update',$student['id']) }}" class="btn text-center" style="background: #AE9A66;padding:15px 24px;border-radius:99px;font-size:16px;font-weight:600;color:#FFF;"><i class="fa fa-edit"></i> Edit</a>
                             </div>
 
 

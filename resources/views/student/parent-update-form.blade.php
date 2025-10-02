@@ -17,8 +17,9 @@
             </div>
         </div>
 
-        <form action="{{ route('form.step.post', 2) }}" method="POST" enctype="multipart/form-data" id="form">
+        <form action="{{ route('parents-update',$data['id']) }}" method="POST" enctype="multipart/form-data" id="form">
             @csrf
+            @method('PUT')
 
             <div class="row d-flex justify-content-center">
                 <div class="col-lg-10">
@@ -435,9 +436,9 @@
             {{-- Submit + Back --}}
             <div class="row mt-3">
                 <div class="col-lg-10 m-auto">
-                    <button type="submit" class="btn custom-btn w-100">Continue</button>
+                    <button type="submit" class="btn custom-btn w-100">Update</button>
                     <div class="text-center mt-4">
-                        <a href="{{ route('form.step', 1) }}" class="text-light text-decoration-none">
+                        <a href="{{ route('form.step', 6) }}" class="text-light text-decoration-none">
                             <i class="fa fa-arrow-left"></i> Go Back
                         </a>
                     </div>

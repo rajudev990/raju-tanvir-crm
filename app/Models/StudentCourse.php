@@ -23,10 +23,10 @@ class StudentCourse extends Model
     }
 
     protected $casts = [
-        'language_subjects'   => 'array',
-        'core_subjects'       => 'array',
-        'islamic_subjects'    => 'array',
-        'additional_subjects' => 'array',
-        'hifdh_subjects'      => 'array',
+        'language'   => 'array',
+        'core_subject'       => 'array',
+        'islamic_subject'    => 'array',
+        'additional_subject' => 'array',
+        'hifdh_subject'      => 'array',
     ];
 }

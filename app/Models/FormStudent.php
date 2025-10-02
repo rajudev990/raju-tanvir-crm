@@ -18,6 +18,7 @@ class FormStudent extends Model
         return $this->belongsTo(StudentGroup::class, 'group_id');
     }
 
+
     public function course()
     {
         return $this->belongsTo(StudentCourse::class,'package_id');

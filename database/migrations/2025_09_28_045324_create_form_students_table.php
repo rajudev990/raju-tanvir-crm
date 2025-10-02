@@ -29,12 +29,12 @@ return new class extends Migration
             $table->string('student_file1')->nullable();
             $table->string('student_file2')->nullable();
 
-            $table->json('hifdh_subjects')->nullable();
+            $table->json('core_subject')->nullable();
+            $table->json('additional_subject')->nullable();
+            $table->json('islamic_subject')->nullable();
+            $table->json('hifdh_subject')->nullable();
+            $table->json('language')->nullable();
 
-            $table->json('language_subjects')->nullable();
-            $table->json('core_subjects')->nullable();
-            $table->json('islamic_subjects')->nullable();
-            $table->json('additional_subjects')->nullable();
 
             $table->foreign('form_submission_id')
                 ->references('id')->on('form_submissions')

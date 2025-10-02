@@ -39,19 +39,18 @@
             <div class="row mb-4">
                 <div class="col-lg-6 step-four m-auto">
                     <h3 class="text-center" style="color:#AE9A66;font-size:24px;font-weight:500;">
-                        Choose a Pricing Package That Suits
+                        Choose a Pricing Package for 
                         <span style="color:#fff;">{{ $student['fname'] ?? '' }}</span>
-                        Best
                     </h3>
                     <p class="text-center text-light">{{ $student['group']['name'] ?? '' }}</p>
                 </div>
             </div>
 
-            <div class="row d-flex justify-content-center">
+            <div class="row d-flex justify-content-center mb-4">
 
                 {{-- Every Plan List --}}
                 <div class="col-lg-3">
-                    <div class="card p-4 mb-3" style="background-color:#0c2a58;border-radius:24px;color:#FFF;cursor:pointer;border:1px solid #AE9A66;">
+                    <div class="card mb-3" style="background-color:#0c2a58;border-radius:24px;color:#FFF;cursor:pointer;border:1px solid #AE9A66;">
                         <div class="card-body">
                             <h3 class="py-3" style="color:#AE9A66;font-size:20px;font-weight:600;">Every Plan Comes With</h3>
                             <ul style="list-style:none; padding-left:0;">
@@ -81,7 +80,7 @@
                 @endphp
 
                 <div class="col-lg-3">
-                    <div class="card p-4 mb-3 schoolbox {{ $isActive }}"
+                    <div class="card mb-3 schoolbox {{ $isActive }}"
                         data-regular="{{ $regPrice }}"
                         data-discount-price="{{ $discPrice }}"
                         data-discount="{{ $disc }}"
@@ -90,17 +89,20 @@
                             <h3 class="py-3" style="color:#AE9A66;font-size:24px;font-weight:600;">
                                 {{ ucfirst($pkgName) == 'Annual' ? 'Annual Contract' : ucfirst($pkgName).' Payment' }}
                             </h3>
-                            <h1 style="background:#061E42;padding:8px 60px;border-radius:8px;text-align:center;font-size:32px;font-weight:600;">
-                                £{{ $regPrice }}
+
+                             <h1 class="d-flex justify-content-center" style="background: #061E42;padding:8px 10px;border-radius:8px;text-align:center;font-size:22px;font-weight:600;">
+                                 £{{ $regPrice }} 
                                 @if($discPrice)
-                                <del class="ms-2" style="color:#AE9A66;font-size:20px;">£{{ $discPrice }}</del>
+                                    <del class="ms-2" style="color: #AE9A66;font-size:20px;">£{{ $discPrice }}</del>
                                 @endif
-                                @if($disc)
-                                <span class="badge ms-4" style="background:#183E77;font-size:12px;padding:10px 15px;border-radius:99px;">
-                                    Save £{{ $disc }}
-                                </span>
+                                 @if($disc)
+                                    <span class="badge ms-2" style="background: #183E77;font-size:12px;padding:10px 15px;border-radius:99px;">
+                                        Save £{{ $disc }}
+                                    </span>
                                 @endif
                             </h1>
+
+                            
 
                             {{-- Package List Items --}}
                             <ul style="list-style:none; padding-left:0; margin-top:15px; text-align:left;">
@@ -109,7 +111,7 @@
                                 @if(!empty($student['course'][$listKey]))
                                 <li class="mb-2 d-flex align-items-center">
                                     <img width="16" height="16" src="{{ asset('frontend/assets/img/check.png') }}">
-                                    <span style="font-size:16px;font-weight:400;color:#FFF;">
+                                    <span style="font-size:16px;font-weight:400;color:#FFF;margin-left: 10px;">
                                         {{ $student['course'][$listKey] }}
                                     </span>
                                 </li>
@@ -117,7 +119,7 @@
                                 @endforeach
                             </ul>
 
-                            <div class="text-center mt-3">
+                            <div class="text-center mt-5 mb-3">
                                 <button type="button"
                                     data-index="{{ $index }}"
                                     data-package="{{ $pkgName }}"

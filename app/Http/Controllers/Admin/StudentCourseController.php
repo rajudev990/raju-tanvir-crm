@@ -62,7 +62,7 @@ class StudentCourseController extends Controller
         $data['core_subject'] = $request->core_subject ?? [];
         $data['islamic_subject'] = $request->islamic_subject ?? [];
         $data['additional_subject'] = $request->additional_subject ?? [];
-
+        
         // Save
         StudentCourse::create($data);
 

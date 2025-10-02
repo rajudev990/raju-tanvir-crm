@@ -17,22 +17,21 @@
 
 
         @include('errors.validation')
-        <form action="{{ route('form.step.post', 3) }}" method="POST" enctype="multipart/form-data" id="form">
+        <form action="{{ route('parents-update.form', $student['id']) }}" method="POST" enctype="multipart/form-data" id="form">
             @csrf
+            @method('put')
             <div class="row d-flex justify-content-center">
                 <div class="col-lg-10">
                     <div id="studentsContainer">
 
 
 
-                        @forelse($data['students'] as $index => $student)
+                       
                         <div class="card p-4 mb-3 student-card position-relative" style="background-color:#0c2a58;border-radius:24px;color:#FFF;">
-                            @if($index > 0)
-                            <span class="btn btn-danger btn-sm float-end remove-student" style="position:absolute;top:10px;right:10px;">Remove</span>
-                            @endif
+                            
                             <div class="card-body">
                                 <h3 class="text-center mb-5" style="color: #AE9A66;font-size: 24px;font-weight: 600;">
-                                    Tell us about your child {{ $index + 1 }}
+                                    Tell us about your child {{ $student['fname'] ?? '' }}
                                 </h3>
                                 <div class="row">
                                     {{-- First Name --}}
@@ -220,172 +219,9 @@
                                 </div> <!-- row -->
                             </div>
                         </div>
-                        @empty
+                        
 
-                        {{-- If no session data --}}
-                        <div class="card p-4 mb-3 student-card position-relative" style="background-color:#0c2a58;border-radius:24px;color:#FFF;">
-                            <div class="card-body">
-                                <h3 class="text-center mb-5" style="color: #AE9A66;font-size: 24px;font-weight: 600;">Tell us about your first child</h3>
-                                <div class="row">
-                                    {{-- First Name --}}
-                                    <div class="col-lg-6">
-                                        <div class="form-group mb-4">
-                                            <label>First Name<span class="text-danger">*</span></label>
-                                            <input type="text" name="fname[]" class="form-control" placeholder="First name here" required>
-                                        </div>
-                                    </div>
-                                    {{-- Last Name --}}
-                                    <div class="col-lg-6">
-                                        <div class="form-group mb-4">
-                                            <label>Last Name<span class="text-danger">*</span></label>
-                                            <input type="text" name="lname[]" class="form-control" placeholder="Last name here" required>
-                                        </div>
-                                    </div>
-                                    {{-- DOB --}}
-                                    <div class="col-lg-6">
-                                        <div class="form-group mb-4">
-                                            <label>DOB<span class="text-danger">*</span></label>
-                                            <input type="date" name="dob[]" class="form-control" required>
-                                        </div>
-                                    </div>
-                                    {{-- Gender --}}
-                                    <div class="col-lg-6">
-                                        <div class="form-group mb-4">
-                                            <label>Gender<span class="text-danger">*</span></label>
-                                            <select name="gender[]" class="form-control form-select" required>
-                                                <option value="">-- Select --</option>
-                                                <option value="Male">Male</option>
-                                                <option value="Female">Female</option>
-                                                <option value="Others">Others</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    {{-- Nationality --}}
-                                    <div class="col-lg-6">
-                                        <div class="form-group mb-4">
-                                            <label>Nationality<span class="text-danger">*</span></label>
-                                            <select name="nationality[]" class="form-control form-select" required>
-                                                <option value="">-- Select --</option>
-                                                @foreach(['Bangladeshi','Indian','Pakistani','Nepali','Sri Lankan','Bhutanese','Maldivian','Other'] as $nation)
-                                                <option value="{{ $nation }}">{{ $nation }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    {{-- Desired Start Date --}}
-                                    <div class="col-lg-6">
-                                        <div class="form-group mb-4">
-                                            <label>Desired Start Date<span class="text-danger">*</span></label>
-                                            <select name="start_date[]" class="form-control form-select" required>
-                                                <option value="">-- Select --</option>
-                                                @foreach(['12/12/2025','12/12/2026','12/12/2027'] as $date)
-                                                <option value="{{ $date }}">{{ $date }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    {{-- Group --}}
-                                    <div class="col-lg-6">
-                                        <div class="form-group mb-4">
-                                            <label>Group<span class="text-danger">*</span></label>
-                                            <select name="group_id[]" class="form-control form-select group-select">
-                                                <option value="">-- Select --</option>
-                                                @foreach($groups as $g)
-                                                <option value="{{ $g->id }}">{{ $g->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    {{-- Year --}}
-                                    <div class="col-lg-6">
-                                        <div class="form-group mb-4">
-                                            <label>Year<span class="text-danger">*</span></label>
-                                            <select name="year_id[]" class="form-control form-select year-select">
-                                                <option value="">-- Select --</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    {{-- Package --}}
-                                    <div class="col-lg-12">
-                                        <div class="form-group mb-4">
-                                            <label>Package<span class="text-danger">*</span></label>
-                                            <select name="package_id[]" class="form-control form-select package-select">
-                                                <option value="">-- Select --</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    {{-- Subjects Divs --}}
-                                    <div class="col-lg-12 coreSubjectsDiv" style="display:none;">
-                                        <div class="form-group mb-2">
-                                            <label>Core Subjects</label>
-                                            <div class="subjectsContainer"></div>
-                                            <input type="hidden" name="core_subject[]" class="core-subjects-input">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12 islamicSubjectsDiv" style="display:none;">
-                                        <div class="form-group mb-2">
-                                            <label>Islamic Subjects</label>
-                                            <div class="subjectsContainer"></div>
-                                            <input type="hidden" name="islamic_subject[]" class="islamic-subjects-input">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12 additionalSubjectsDiv" style="display:none;">
-                                        <div class="form-group mb-2">
-                                            <label>Additional Subjects</label>
-                                            <div class="subjectsContainer"></div>
-                                            <input type="hidden" name="additional_subject[]" class="additional-subjects-input">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12 languageDiv" style="display:none;">
-                                        <div class="form-group mb-2">
-                                            <label>Languages</label>
-                                            <div class="subjectsContainer"></div>
-                                            <input type="hidden" name="language[]" class="language-subjects-input">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12 hifdhDiv" style="display:none;">
-                                        <div class="form-group mb-2">
-                                            <label>Hifdh Subjects</label>
-                                            <div class="subjectsContainer"></div>
-                                            <input type="hidden" name="hifdh_subject[]" class="hifdh-subjects-input">
-                                        </div>
-                                        <label class="custom-check">
-                                            <input type="checkbox" name="hifdh_option[]">
-                                            <span class="custom-checkmark"></span>
-                                            <span class="text-light" id="hifdhText"></span>
-                                        </label>
-                                    </div>
-                                    {{-- Documents --}}
-                                    <div class="col-lg-12 mt-3">
-                                        <div class="card">
-                                            <div class="card-body text-dark">
-                                                <h3>Documents<span class="text-danger">*</span></h3>
-                                                <ol>
-                                                    <li>Proof of ID (Passport, Birth Certificate, National ID)</li>
-                                                    <li>Previous Academic Years Report</li>
-                                                </ol>
-                                                <div class="row">
-                                                    <div class="col-lg-6 text-center">
-                                                        <label class="form-label d-block">Proof Of Parents ID</label>
-                                                        <input type="file" class="d-none parent-file1" name="student_file1[]">
-                                                        <label class="btn form-control" style="background: #061E42;color:#FFF;">Choose File <i class="fas fa-plus"></i></label>
-                                                        <div class="fileName mt-2 text-muted">No file chosen yet</div>
-                                                    </div>
-                                                    <div class="col-lg-6 text-center">
-                                                        <label class="form-label d-block">Proof Of Parents ID</label>
-                                                        <input type="file" class="d-none parent-file2" name="student_file2[]">
-                                                        <label class="btn form-control" style="background: #061E42;color:#FFF;">Choose File <i class="fas fa-plus"></i></label>
-                                                        <div class="fileName mt-2 text-muted">No file chosen yet</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div> <!-- row -->
-                            </div>
-                        </div>
-                        @endforelse
+              
 
 
                     </div>
@@ -394,10 +230,10 @@
 
             <div class="row mt-3">
                 <div class="col-lg-10 m-auto">
-                    <p id="addMore" class="btn w-100 py-3" style="background: #183E77;color:#FFF;cursor:pointer;">Add More Students <i class="fa fa-plus ms-3"></i></p>
-                    <button type="submit" class="btn custom-btn w-100">Continue</button>
+                    
+                    <button type="submit" class="btn custom-btn w-100">Update</button>
                     <div class="text-center mt-4">
-                        <a href="{{ route('form.step', 2) }}" class="text-light text-decoration-none"><i class="fa fa-arrow-left"></i> Go Back</a>
+                        <a href="{{ route('form.step', 6) }}" class="text-light text-decoration-none"><i class="fa fa-arrow-left"></i> Go Back</a>
                     </div>
                 </div>
             </div>
@@ -582,32 +418,7 @@ $(document).ready(function() {
         initCard($(this), true);
     });
 
-    // Add More
-    let studentCount = $('#studentsContainer .student-card').length;
-    $('#addMore').click(function() {
-        studentCount++;
-        let newCard = $('#studentsContainer .student-card:first').clone();
-
-        // সব input clear
-        newCard.find('input[type="text"],input[type="date"],input[type="hidden"]').val('');
-        newCard.find('select').val('').removeAttr('data-selected');
-        newCard.find('.subjectsContainer').html('');
-        newCard.find('.coreSubjectsDiv,.islamicSubjectsDiv,.additionalSubjectsDiv,.languageDiv,.hifdhDiv').hide();
-        newCard.find('.fileName').text('No file chosen yet');
-        newCard.find('input[type="checkbox"]').prop('checked', false);
-        newCard.find('h3').text('Tell us about your child ' + studentCount);
-
-        newCard.append(`<span class="btn btn-danger btn-sm float-end remove-student" 
-                style="position:absolute;top:10px;right:10px;">Remove</span>`);
-
-        $('#studentsContainer').append(newCard);
-        initCard(newCard, false);
-    });
-
-    // Remove
-    $(document).on('click', '.remove-student', function() {
-        $(this).closest('.student-card').remove();
-    });
+    
 });
 </script>
 

@@ -15,7 +15,7 @@ use App\Models\StudentSubject;
 use App\Models\StudentYear;
 use Stripe\Stripe;
 use Stripe\PaymentIntent;
-
+use Svg\Tag\Rect;
 
 class MultiStepFormController extends Controller
 {
@@ -99,7 +99,7 @@ class MultiStepFormController extends Controller
         }
         $schools = School::where('status', 1)->get();
         $groups = StudentGroup::where('status', 1)->get();
-        return view("student.step{$step}", compact('data', 'schools', 'groups'));
+        return view("student.step{$step}", compact('data', 'schools', 'groups', 'submissionId'));
     }
 
     // ===================== Handle step POST =====================
@@ -196,11 +196,11 @@ class MultiStepFormController extends Controller
                 'group_id.*' => 'required|integer',
                 'year_id.*' => 'required|integer',
                 'package_id.*' => 'required|integer',
-                'core_subjects.*' => 'nullable|string',
-                'islamic_subjects.*' => 'nullable|string',
-                'additional_subjects.*' => 'nullable|string',
-                'language_subjects.*' => 'nullable|string',
-                'hifdh_subjects.*' => 'nullable|string',
+                'core_subject.*' => 'nullable|string',
+                'islamic_subject.*' => 'nullable|string',
+                'additional_subject.*' => 'nullable|string',
+                'language.*' => 'nullable|string',
+                'hifdh_subject.*' => 'nullable|string',
                 'hifdh_option.*' => 'nullable|string',
                 'student_file1.*' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
                 'student_file2.*' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
@@ -230,11 +230,11 @@ class MultiStepFormController extends Controller
                     'group_id' => $validated['group_id'][$i],
                     'year_id' => $validated['year_id'][$i],
                     'package_id' => $validated['package_id'][$i],
-                    'core_subjects' => $validated['core_subjects'][$i] ?? null,
-                    'islamic_subjects' => $validated['islamic_subjects'][$i] ?? null,
-                    'additional_subjects' => $validated['additional_subjects'][$i] ?? null,
-                    'language_subjects' => $validated['language_subjects'][$i] ?? null,
-                    'hifdh_subjects' => $validated['hifdh_subjects'][$i] ?? null,
+                    'core_subject' => $validated['core_subject'][$i] ?? null,
+                    'islamic_subject' => $validated['islamic_subject'][$i] ?? null,
+                    'additional_subject' => $validated['additional_subject'][$i] ?? null,
+                    'language' => $validated['language'][$i] ?? null,
+                    'hifdh_subject' => $validated['hifdh_subject'][$i] ?? null,
                     'hifdh' => !empty($request->hifdh_option[$i]) ? 1 : 0,
                     'student_file1' => $file1Path,
                     'student_file2' => $file2Path,
@@ -299,68 +299,195 @@ class MultiStepFormController extends Controller
 
         // ================= Step 7: Payment =================
         elseif ($step == 7) {
+
+            // 1️⃣ Validate the form inputs
             $validated = $request->validate([
-                'payment_email' => 'required|email',
-                'payment_country' => 'required|string',
+                'payment_email'       => 'required|email',
+                'payment_country'     => 'required|string',
                 'payment_postal_code' => 'required|string',
-                'payment_accept' => 'accepted',
-                'card_holder_name' => 'required|string',
+                'payment_accept'      => 'accepted',
+                'card_holder_name'    => 'required|string',
+                'total_amount'        => 'required|numeric',
+                'stripeToken'         => 'required|string',
             ]);
 
+            // 2️⃣ Retrieve the submission
             $submission = FormSubmission::findOrFail($submissionId);
 
-            // Amount calculation (students * 15)
-            $totalAmount = $request->total_amount * 100; // Stripe works with cents/pence
+            // Amount in cents/pence for Stripe
+            $totalAmount = $validated['total_amount'] * 100;
 
+            // 3️⃣ Set Stripe secret key
             \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
 
             try {
-                // 1️⃣ যদি ফ্রন্টএন্ড থেকে payment_intent_id আসে (confirm হওয়া)
-                if ($request->has('payment_intent_id')) {
-                    $paymentIntent = \Stripe\PaymentIntent::retrieve($request->payment_intent_id);
-
-                    if ($paymentIntent->status === 'succeeded') {
-                        // ✅ Save payment success
-                        $submission->update([
-                            'payment_email'        => $validated['payment_email'],
-                            'payment_country'      => $validated['payment_country'],
-                            'payment_postal_code'  => $validated['payment_postal_code'],
-                            'payment_accept'       => $validated['payment_accept'],
-                            'card_holder_name'     => $validated['card_holder_name'],
-                            'status'               => 'paid',
-                            'paid_amount'          => $totalAmount / 100,
-                            'total_amount'         => $totalAmount / 100,
-                            'transaction_id'       => $paymentIntent->id,
-                            'currency'             => $paymentIntent->currency,
-                            'payment_date'         => now(),
-                        ]);
-
-                        Session::forget('submission_id'); // ✅ Session destroy
-
-                        return redirect()->route('form.step', 1)
-                            ->with('success', 'Form submitted & payment successful!');
-                    } else {
-                        return back()->withErrors(['payment_error' => 'Payment not completed.']);
-                    }
-                }
-
-                // 2️⃣ নতুন PaymentIntent তৈরি (যদি confirm না হয়)
-                $paymentIntent = \Stripe\PaymentIntent::create([
+                // 4️⃣ Create a Stripe charge using the token
+                $charge = \Stripe\Charge::create([
                     'amount' => $totalAmount,
-                    'currency' => 'gbp',
-                    'automatic_payment_methods' => ['enabled' => true],
+                    'currency' => 'gbp', // change currency if needed
+                    'source' => $validated['stripeToken'],
+                    'description' => "Payment for Submission ID: {$submission->id}",
                     'receipt_email' => $validated['payment_email'],
                 ]);
 
-                return view('student.payment-confirm', [
-                    'clientSecret' => $paymentIntent->client_secret,
-                    'submissionId' => $submission->id,
+                // 5️⃣ Update the submission as paid
+                $submission->update([
+                    'payment_email'       => $validated['payment_email'],
+                    'payment_country'     => $validated['payment_country'],
+                    'payment_postal_code' => $validated['payment_postal_code'],
+                    'payment_accept'      => true,
+                    'card_holder_name'    => $validated['card_holder_name'],
+                    'status'              => 'paid',
+                    'paid_amount'         => $validated['total_amount'],
+                    'total_amount'        => $validated['total_amount'],
+                    'transaction_id'      => $charge->id,
+                    'currency'            => $charge->currency,
+                    'payment_date'        => now(),
                 ]);
+
+                // 6️⃣ Clear session data
+                Session::forget('submission_id');
+                Session::forget('stripe_client_secret'); // in case it exists
+
+                return redirect()->route('payment-success')
+                    ->with('success', 'Payment successful & form submitted!');
             } catch (\Exception $e) {
                 return back()->withErrors(['payment_error' => $e->getMessage()]);
             }
         }
 
+
         return redirect()->route('form.step', $step + 1);
+    }
+
+
+    // Parents Update
+    public function parentUpdate($id)
+    {
+        $data = FormSubmission::findOrFail($id)->toArray();
+        return view('student.parent-update-form', compact('data'));
+    }
+
+    public function parentUpdateData(Request $request, $id)
+    {
+
+        $validated = $request->validate([
+            'title' => 'required|string|max:20',
+            'fname' => 'required|string|max:100',
+            'lname' => 'required|string|max:100',
+            'relationship' => 'required|string|max:50',
+            'email' => 'required|email',
+            'confirm_email' => 'required|email|same:email',
+            'mobile_number' => 'required|string',
+            'home_telephone' => 'nullable|string',
+            'work_number' => 'required|string',
+            'address' => 'required|string',
+            'apartment' => 'nullable|string',
+            'city' => 'required|string',
+            'province' => 'required|string',
+            'postal_code' => 'required|string',
+            'country' => 'required|string',
+            'file1' => 'nullable|file|mimes:pdf,jpg,jpeg,png',
+            'file2' => 'nullable|file|mimes:pdf,jpg,jpeg,png',
+            'secondary_title' => 'nullable|string|max:20',
+            'secondary_fname' => 'nullable|string|max:100',
+            'secondary_lname' => 'nullable|string|max:100',
+            'secondary_relationship' => 'nullable|string|max:50',
+            'secondary_email' => 'nullable|email',
+            'secondary_confirm_email' => 'nullable|email|same:secondary_email',
+            'secondary_mobile_number' => 'nullable|string',
+            'secondary_home_telephone' => 'nullable|string',
+            'secondary_work_number' => 'nullable|string',
+            'secondary_address' => 'nullable|string',
+            'secondary_apartment' => 'nullable|string',
+            'secondary_city' => 'nullable|string',
+            'secondary_province' => 'nullable|string',
+            'secondary_postal_code' => 'nullable|string',
+            'secondary_country' => 'nullable|string',
+            'file3' => 'nullable|file|mimes:pdf,jpg,jpeg,png',
+            'file4' => 'nullable|file|mimes:pdf,jpg,jpeg,png',
+        ]);
+
+        // File uploads
+        foreach (['file1', 'file2', 'file3', 'file4'] as $file) {
+            if ($request->hasFile($file)) {
+                $validated[$file] = $request->file($file)->store('forms', 'public');
+            }
+        }
+
+        FormSubmission::where('id', $id)->update($validated);
+
+        return redirect()->route('form.step', 6);
+    }
+
+    // Students
+    // Parents Update
+    public function studentUpdate($id)
+    {
+        $student = FormStudent::findOrFail($id)->toArray();
+        $groups = StudentGroup::where('status', 1)->get();
+        return view('student.student-update-form', compact('student', 'groups'));
+    }
+
+    public function studentUpdateData(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'fname.*' => 'required|string|max:100',
+            'lname.*' => 'required|string|max:100',
+            'dob.*' => 'required|date',
+            'gender.*' => 'required|string',
+            'nationality.*' => 'required|string',
+            'start_date.*' => 'required|string',
+            'group_id.*' => 'required|integer',
+            'year_id.*' => 'required|integer',
+            'package_id.*' => 'required|integer',
+            'core_subject.*' => 'nullable|string',
+            'islamic_subject.*' => 'nullable|string',
+            'additional_subject.*' => 'nullable|string',
+            'language.*' => 'nullable|string',
+            'hifdh_subject.*' => 'nullable|string',
+            'hifdh_option.*' => 'nullable|string',
+            'student_file1.*' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'student_file2.*' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
+        ]);
+
+        // Retrieve the student record
+        $data = FormStudent::findOrFail($id);
+
+        // Loop through each student field (if updating multiple entries, otherwise use [0])
+        foreach ($validated['fname'] as $index => $fname) {
+
+            // Handle files
+            $file1Path = isset($request->file('student_file1')[$index])
+                ? $request->file('student_file1')[$index]->store('students', 'public')
+                : $data->student_file1;
+
+            $file2Path = isset($request->file('student_file2')[$index])
+                ? $request->file('student_file2')[$index]->store('students', 'public')
+                : $data->student_file2;
+
+            // Update the student record
+            $data->update([
+                'fname' => $fname,
+                'lname' => $validated['lname'][$index],
+                'dob' => $validated['dob'][$index],
+                'gender' => $validated['gender'][$index],
+                'nationality' => $validated['nationality'][$index],
+                'start_date' => $validated['start_date'][$index],
+                'group_id' => $validated['group_id'][$index],
+                'year_id' => $validated['year_id'][$index],
+                'package_id' => $validated['package_id'][$index],
+                'core_subject' => $validated['core_subject'][$index] ?? null,
+                'islamic_subject' => $validated['islamic_subject'][$index] ?? null,
+                'additional_subject' => $validated['additional_subject'][$index] ?? null,
+                'language' => $validated['language'][$index] ?? null,
+                'hifdh_subject' => $validated['hifdh_subject'][$index] ?? null,
+                'hifdh' => !empty($validated['hifdh_option'][$index]) ? 1 : 0,
+                'student_file1' => $file1Path,
+                'student_file2' => $file2Path,
+            ]);
+        }
+
+        return redirect()->route('form.step',6);
     }
 }

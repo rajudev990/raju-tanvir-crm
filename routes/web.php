@@ -50,6 +50,15 @@ Route::get('/email-test',function(){
 Route::get('/student-admission',[MultiStepFormController::class,'studentAdmission']);
 Route::get('/student-admission/step/{step}', [MultiStepFormController::class, 'showStep'])->name('form.step');
 Route::post('/student-admission/step/{step}', [MultiStepFormController::class, 'postStep'])->name('form.step.post');
+Route::get('/payment-success',function(){
+    return view('student.payment-confirm');
+})->name('payment-success');
+
+Route::get('/parents-update/{id}', [MultiStepFormController::class, 'parentUpdate'])->name('parent-update');
+Route::put('/parents-update/{id}', [MultiStepFormController::class, 'parentUpdateData'])->name('parents-update');
+
+Route::get('/students-update/{id}', [MultiStepFormController::class, 'studentUpdate'])->name('students.update');
+Route::put('/students-update/{id}', [MultiStepFormController::class, 'studentUpdateData'])->name('parents-update.form');
 
 Route::get('/get-years/{group}', [MultiStepFormController::class, 'getYears']);
 Route::get('/get-packages/{group}/{year}', [MultiStepFormController::class, 'getPackages']);

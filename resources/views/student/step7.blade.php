@@ -53,6 +53,8 @@
 
             <div class="col-lg-6">
                @include('errors.validation')
+
+
                 <form action="{{ route('form.step.post',7) }}" method="POST" id="stripe-form">
                     @csrf
                     <div class="card p-5" style="background-color:#FFF;border-radius:16px;color:#000;">
@@ -127,13 +129,15 @@
                             <input type="hidden" name="stripeToken" id="stripe-token">
 
                             <div class="text-center mt-5">
-                                <button type="button" onclick="payNow()" class="btn custom-btn w-100">Pay Now</button>
+                                <button type="button" onclick="createToken()" class="btn custom-btn w-100">Pay Now</button>
                             </div>
 
 
                         </div>
                     </div>
                 </form>
+
+                
             </div>
 
         </div>
@@ -152,35 +156,19 @@
 
 @section('script')
 <script src="https://js.stripe.com/v3/"></script>
-<script>
-    var stripe = Stripe("{{ env('STRIPE_KEY') }}");
+<script type="text/javascript">
+    var stripe = Stripe('{{ env("STRIPE_KEY") }}');
     var elements = stripe.elements();
     var cardElement = elements.create('card');
     cardElement.mount('#card-element');
 
-    function payNow() {
-        stripe.confirmCardPayment("{{ $clientSecret }}", {
-            payment_method: {
-                card: cardElement,
-                billing_details: {
-                    name: document.getElementById("card-holder-name").value,
-                    email: document.getElementById("email").value
-                }
-            }
-        }).then(function(result) {
+    function createToken() {
+        stripe.createToken(cardElement).then(function(result) {
             if (result.error) {
-                document.getElementById("card-errors").textContent = result.error.message;
+                document.getElementById('card-errors').textContent = result.error.message;
             } else {
-                if (result.paymentIntent.status === "succeeded") {
-                    // ✅ Hidden input যোগ করে submit করো
-                    var form = document.getElementById("stripe-form");
-                    var hidden = document.createElement("input");
-                    hidden.type = "hidden";
-                    hidden.name = "payment_intent_id";
-                    hidden.value = result.paymentIntent.id;
-                    form.appendChild(hidden);
-                    form.submit();
-                }
+                document.getElementById("stripe-token").value = result.token.id;
+                document.getElementById("stripe-form").submit();
             }
         });
     }
