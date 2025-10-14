@@ -4,7 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Admission</title>
+    <title>@yield('title')</title>
+    <!-- Favicons -->
+    <link href="{{ asset('frontend/') }}/assets/img/logo.png" rel="icon">
+    <link href="{{ asset('frontend/') }}/assets/img/logo.png" rel="apple-touch-icon">
+    <!-- Favicons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/css/bootstrap-select.min.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -307,10 +311,11 @@
             color: #000 !important;
         }
     </style>
+    @yield('css')
 </head>
 
 <body style="min-height: 100vh;background-color:#061e42;">
-    <a href="{{ url('/') }}" class="logo d-flex align-items-center m-auto" style="background: #ECF4FF;padding-top:10px;padding-bottom:10px;">
+    <a href="{{ route('form.step',1) }}" class="logo d-flex align-items-center m-auto" style="background: #ECF4FF;padding-top:10px;padding-bottom:10px;">
         <img src="{{ asset('frontend/') }}/assets/img/logo.png" alt="" width="70" style="margin:auto;">
     </a>
     @yield('student')

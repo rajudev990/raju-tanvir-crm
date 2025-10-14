@@ -14,21 +14,12 @@ use Illuminate\Support\Facades\Schema;
 
 
 Route::get('/cmd',function(){
-    Schema::create('meet_speakers', function (Blueprint $table) {
-            $table->id();
-            $table->string('name')->nullable();
-            $table->string('designation')->nullable();
-            $table->text('image')->nullable();
-            $table->string('status')->default(1);
-            $table->timestamps();
-        });
-    // Artisan::call('make:controller Admin/StaffApplicationController -r');
-    // Artisan::call('storage:link');
-    // Artisan::call('config:clear');
-    // Artisan::call('cache:clear');
-    // Artisan::call('route:clear');
-    // Artisan::call('view:clear');
-    // Artisan::call('optimize:clear');
+    Artisan::call('storage:link');
+    Artisan::call('config:clear');
+    Artisan::call('cache:clear');
+    Artisan::call('route:clear');
+    Artisan::call('view:clear');
+    Artisan::call('optimize:clear');
     return 'Done';
 
 });
@@ -52,7 +43,7 @@ Route::get('/student-admission/step/{step}', [MultiStepFormController::class, 's
 Route::post('/student-admission/step/{step}', [MultiStepFormController::class, 'postStep'])->name('form.step.post');
 Route::get('/payment-success',function(){
     return view('student.payment-confirm');
-})->name('payment-success');
+})->name('payment.success');
 
 Route::get('/parents-update/{id}', [MultiStepFormController::class, 'parentUpdate'])->name('parent-update');
 Route::put('/parents-update/{id}', [MultiStepFormController::class, 'parentUpdateData'])->name('parents-update');
@@ -71,24 +62,17 @@ Route::post('/apply-coupon', [FrontendController::class, 'applyCoupon'])->name('
 
 
 
-
-Route::get('/login',function(){
-    return redirect()->route('index');
-});
-
-
-Route::post('/user-logout', function () {
-    Auth::logout();
-    session()->invalidate();
-    session()->regenerateToken();
-
-    return redirect('/')->with('success', 'You are logged out.');
-})->name('user.logout');
-
-
-
 Route::get('/',[FrontendController::class,'index'])->name('index');
+
+Route::get('/calendly-events', [FrontendController::class, 'fetchEvents']);
+
+Route::get('/book-a-call',[FrontendController::class,'bookCall'])->name('book-a-call');
+Route::get('/enquire-now',[FrontendController::class,'enquireNow'])->name('enquire-now');
+Route::get('/referral',[FrontendController::class,'referral'])->name('referral');
+
+
 Route::get('/contact',[FrontendController::class,'contact'])->name('contact');
+
 Route::post('/meeting/store', [FrontendController::class, 'mettingStore'])->name('meeting.store');
 Route::post('/enquire/store', [FrontendController::class, 'enquireStore'])->name('enquire.store');
 Route::post('/referral/store', [FrontendController::class, 'referralStore'])->name('referral.store');
@@ -106,8 +90,10 @@ Route::post('debit/store',[FrontendController::class,'debitFormStore']);
 Route::get('debit/success',[FrontendController::class,'debitSubmissionSuccwss'])->name('debit.success');
 
 
-Route::get('/staff-admission',[FrontendController::class,'staffAdmissionForm'])->name('staff-admission');
+Route::get('/staff-application',[FrontendController::class,'staffAdmissionForm'])->name('staff-admission');
 Route::post('/staff-applications-form',[FrontendController::class,'staffAdmissionFormStore']);
+
+
 
 
 Route::get('/student-application',[FrontendController::class,'studentApplication'])->name('index');
@@ -147,12 +133,40 @@ Route::get('/payment-success-page', function () {
 })->name('payment.success.page');
 
 
+
+
+
+Route::get('/login',function(){
+    return redirect()->route('admin.login');
+});
+
+Route::get('/register',function(){
+    return redirect()->route('admin.login');
+});
+
+Route::get('/home',function(){
+
+    if (Auth::guard('admin')->check()) {
+        return redirect()->route('admin.dashboard');
+    }else{
+        return redirect()->route('admin.login');
+    }
+    
+});
+
+
+Route::post('/user-logout', function () {
+    Auth::logout();
+    session()->invalidate();
+    session()->regenerateToken();
+
+    return redirect('/')->with('success', 'You are logged out.');
+})->name('user.logout');
+
+
 // Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-
-
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 require __DIR__.'/admin-auth.php';
 

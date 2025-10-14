@@ -28,6 +28,7 @@ use App\Http\Controllers\Admin\TimeTableController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\StaffApplicationController;
 use App\Http\Controllers\Admin\StudentCourseController;
+use App\Http\Controllers\Admin\StudentFormController;
 use App\Http\Controllers\Admin\StudentGroupController;
 use App\Http\Controllers\Admin\StudentLanguageController;
 use App\Http\Controllers\Admin\StudentPackageController;
@@ -159,6 +160,7 @@ Route::prefix('admin')->name('admin.')
     Route::resource('student-package',StudentPackageController::class);
     Route::resource('student-course',StudentCourseController::class);
     Route::get('/get-years/{group_id}', [StudentCourseController::class, 'getYears']);
+    Route::resource('form-students',StudentFormController::class);
 
 
     Route::resource('student-school',SchoolController::class);

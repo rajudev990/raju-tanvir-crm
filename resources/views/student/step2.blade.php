@@ -1,5 +1,8 @@
 @extends('student.app')
 
+@section('title','Parent"s Information')
+
+
 @section('student')
 
 <section>
@@ -8,11 +11,11 @@
             <div class="col-lg-4 m-auto">
                 <!-- Progress Header -->
                 <div class="progress-container mb-4">
-                    <h5 class="mb-0 text-light title">Estimated time remaining: 12 minutes</h5>
+                    <h5 class="mb-0 text-light title">Estimated time remaining: 9 minutes</h5>
                     <div class="progress mt-2">
-                        <div class="progress-bar" id="progressBar" role="progressbar" style="width: 30%;"></div>
+                        <div class="progress-bar" id="progressBar" role="progressbar" style="width: 14%;"></div>
                     </div>
-                    <small id="progressText" class="text-light">30%</small>
+                    <small id="progressText" class="text-light">14%</small>
                 </div>
             </div>
         </div>
@@ -190,13 +193,13 @@
                                         <div class="card-body text-dark">
                                             <h3>Documents <span class="text-danger">*</span></h3>
                                             <ol>
-                                                <li>Proof of ID (Passport, Birth Certificate, NID)</li>
-                                                <li>Previous Academic Progress Report</li>
+                                                <li>Proof of ID (Passport, Driving Licence, NID)</li>
+                                                <li>Proof of Address</li>
                                             </ol>
 
                                             <div class="row">
                                                 <div class="col-lg-6 text-center">
-                                                    <label class="form-label d-block">Parent's ID Proof</label>
+                                                    <label class="form-label d-block">Proof of ID</label>
                                                     <input type="file" name="file1" id="file1" class="d-none">
                                                     <label for="file1" class="btn form-control" style="background:#061E42;color:#FFF;">
                                                         Choose File
@@ -208,7 +211,7 @@
                                                 </div>
 
                                                 <div class="col-lg-6 text-center">
-                                                    <label class="form-label d-block">Progress Report</label>
+                                                    <label class="form-label d-block">Proof of Address</label>
                                                     <input type="file" name="file2" id="file2" class="d-none">
                                                     <label for="file2" class="btn form-control" style="background:#061E42;color:#FFF;">
                                                         Choose File
@@ -224,11 +227,23 @@
                                 </div>
 
                             </div>{{-- row end --}}
+
+                            <div class="row mt-4">
+                                <div class="col-lg-6">
+                                    <label class="custom-check">
+                                        <input type="checkbox" id="secondaryGuardian" required>
+                                        <span class="custom-checkmark"></span>
+                                        <span class="text-light">Please Add Secondary Guardian</span>
+                                    </label>
+                                </div>
+                            </div>
+
+
                         </div>
                     </div>
 
                     {{-- ===================== SECONDARY GUARDIAN ===================== --}}
-                    <div class="card p-4 mb-3" style="background-color:#0c2a58;border-radius:24px;color:#FFF;">
+                    <div class="card p-4 mb-3" id="guardian" style="background-color:#0c2a58;border-radius:24px;color:#FFF;display:none;">
                         <div class="card-body">
                             <h3 class="text-center mb-5" style="color: #AE9A66;font-size: 24px;font-weight: 600;">
                                 Secondary Parent / Guardian (Optional)
@@ -391,13 +406,13 @@
                                         <div class="card-body text-dark">
                                             <h3>Documents<span class="text-danger">*</span></h3>
                                             <ol>
-                                                <li>Proof of ID (Passport, Birth Certificate, NID)</li>
-                                                <li>Previous Academic Progress Report</li>
+                                                <li>Proof of ID (Passport, Driving Licence, NID)</li>
+                                                <li>Proof of Address</li>
                                             </ol>
 
                                             <div class="row">
                                                 <div class="col-lg-6 text-center">
-                                                    <label class="form-label d-block">Parent's ID Proof</label>
+                                                    <label class="form-label d-block">Proof of ID</label>
                                                     <input type="file" name="file3" id="file3" class="d-none">
                                                     <label for="file3" class="btn form-control" style="background:#061E42;color:#FFF;">
                                                         Choose File
@@ -409,7 +424,7 @@
                                                 </div>
 
                                                 <div class="col-lg-6 text-center">
-                                                    <label class="form-label d-block">Progress Report</label>
+                                                    <label class="form-label d-block">Proof of Address</label>
                                                     <input type="file" name="file4" id="file4" class="d-none">
                                                     <label for="file4" class="btn form-control" style="background:#061E42;color:#FFF;">
                                                         Choose File
@@ -450,6 +465,35 @@
 @endsection
 
 @section('script')
+<script>
+$(document).ready(function() {
+    // যদি $data['secondary_title'] থাকে
+    var hasSecondaryTitle = @json(!empty($data['secondary_title']));
+
+    if (hasSecondaryTitle) {
+        $('#secondaryGuardian').prop('checked', true);
+        $('#guardian').show();
+    }
+
+    // Checkbox toggle
+    $('#secondaryGuardian').on('change', function() {
+        if ($(this).is(':checked')) {
+            $('#guardian').slideDown();
+        } else {
+            $('#guardian').slideUp();
+        }
+    });
+
+    // Form submit check
+    $('form').on('submit', function(e) {
+        if (!$('#secondaryGuardian').is(':checked')) {
+            alert("Please check 'Add Secondary Guardian' to proceed.");
+            e.preventDefault(); // form stop
+        }
+    });
+});
+</script>
+
 <script>
     // File preview
     ['file1', 'file2', 'file3', 'file4'].forEach(function(id) {
@@ -557,63 +601,63 @@
     });
 </script>
 
-
 <script>
     $(document).ready(function() {
-        // DB / Session থেকে আসা value
         const selectedCountry = @json(session('country') ?? $data['country'] ?? '');
         const selectedSecondary = @json(session('secondary_country') ?? $data['secondary_country'] ?? '');
 
-
         function initCountrySelect(selector, selectedValue) {
-            // Country plugin initialize
             $(selector).countrySelector({
-                valueType: 'full'
+                valueType: 'code' // plugin যেন code দেয়, আমরা পরে name convert করব
             });
 
-            // Polling দিয়ে wait করি plugin option load complete হওয়ার জন্য
             const interval = setInterval(() => {
                 const optionsCount = $(selector).find('option').length;
-
                 if (optionsCount > 0) {
-                    // Options load complete, clear interval
                     clearInterval(interval);
 
-                    // Select2 initialize
                     $(selector).select2({
                         placeholder: "Select a country",
                         allowClear: true,
                         width: '100%'
                     });
 
-                    // DB value select করা
+                    // DB value restore
                     if (selectedValue) {
                         $(selector).find('option').each(function() {
-                            const optionText = $(this).text().trim().toLowerCase();
-                            const dbValue = selectedValue.trim().toLowerCase();
-
-                            if (optionText === dbValue) {
+                            if ($(this).text().trim().toLowerCase() === selectedValue.trim().toLowerCase()) {
                                 $(this).prop('selected', true);
-                                $(selector).trigger('change'); // Select2 refresh
-                                return false; // break
+                                $(selector).trigger('change');
+                                return false;
                             }
                         });
                     }
                 }
-            }, 100); // 100ms interval
+            }, 100);
         }
 
-        // দুইটা select box initialize
         initCountrySelect('#country', selectedCountry);
         initCountrySelect('#secondary_country', selectedSecondary);
 
-        // Form submit এর সময় শুধু full name save করবো
-        $('form').on('submit', function() {
+        // ✅ fixed submit handler
+        $('form').on('submit', function(e) {
+            // Destroy select2 before modify
+            $('#country').select2('destroy');
+            $('#secondary_country').select2('destroy');
+
+            // --- START FIX ---
+            // Get the full text (visible name)
             const primaryText = $('#country option:selected').text().trim();
             const secondaryText = $('#secondary_country option:selected').text().trim();
 
+            // Force set the full name as both value and text
             $('#country').html(`<option selected value="${primaryText}">${primaryText}</option>`);
             $('#secondary_country').html(`<option selected value="${secondaryText}">${secondaryText}</option>`);
+            // --- END FIX ---
+
+            // (optional) debug check
+            console.log('Primary Country:', primaryText);
+            console.log('Secondary Country:', secondaryText);
         });
     });
 </script>

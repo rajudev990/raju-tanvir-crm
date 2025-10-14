@@ -349,7 +349,7 @@ class MultiStepFormController extends Controller
                 Session::forget('submission_id');
                 Session::forget('stripe_client_secret'); // in case it exists
 
-                return redirect()->route('payment-success')
+                return redirect()->route('payment.success')
                     ->with('success', 'Payment successful & form submitted!');
             } catch (\Exception $e) {
                 return back()->withErrors(['payment_error' => $e->getMessage()]);

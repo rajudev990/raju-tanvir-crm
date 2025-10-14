@@ -1,5 +1,5 @@
 @extends('student.app')
-
+@section('title','Your Payment Successfully')
 @section('css')
 <style>
     .progress-container {

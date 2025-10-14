@@ -1,214 +1,19 @@
 @extends('layouts.app')
 
-@section('title') Debit Form @endsection
+@section('title','Al-rushd Online School - Debit Form')
 
 @section('css')
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <link href="{{ asset('frontend/assets/css/jquery-countryselector.min.css') }}" rel="stylesheet" />
-<style>
-    .progress-container {
-        text-align: center;
-        margin-bottom: 20px;
-    }
-
-    .progress {
-        height: 4px;
-        background-color: #2c3e50;
-        max-width: 50%;
-        margin: auto;
-    }
-
-    @media (max-width:576px) {
-        .progress {
-            max-width: 100%;
-        }
-    }
-
-    .progress-bar {
-        background-color: #AE9A66;
-        /* gold */
-    }
-
-    .form-card {
-        background: #0C2A58;
-        ;
-        border-radius: 16px;
-        padding: 30px;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-    }
-
-    .form-label {
-        color: #dcdcdc;
-    }
-
-    .form-control {
-        background: #0d1e36;
-        border: 1px solid #2c3e50;
-        color: #fff;
-        border-radius: 10px;
-    }
-
-    .form-control:focus {
-        background: #0d1e36;
-        border-color: #d4af37;
-        box-shadow: none;
-        color: #fff;
-    }
-
-    .btn-next {
-        background: #AE9A66;
-        border: none;
-        border-radius: 25px;
-        font-weight: bold;
-        color: #0a2342;
-        padding: 10px 30px;
-    }
-
-    .btn-next:hover {
-        background: #AE9A66;
-        ;
-        border: none;
-        border-radius: 25px;
-        font-weight: bold;
-        color: #0a2342;
-        padding: 10px 30px;
-    }
-
-    .btn-back {
-        background: transparent;
-        border: none;
-        color: #aaa;
-        margin-top: 10px;
-    }
-
-    #formTitle {
-        font-size: 24px;
-        color: #FFF;
-        font-weight: 500;
-    }
-
-    #progressText {
-        font-size: 16px;
-        color: #FFF;
-    }
-
-    .form-box-title {
-        text-align: center;
-        font-size: 24px;
-        font-weight: 600;
-        color: #AE9A66;
-    }
-
-    .step {
-        display: none;
-    }
-
-    .step.active {
-        display: block;
-    }
-
-    .select2-container--default .select2-selection--single {
-        -webkit-appearance: none !important;
-        appearance: none !important;
-        background-color: #183e77 !important;
-        border: none !important;
-        border-radius: 8px !important;
-        color: #fff !important;
-        height: 50px !important;
-        letter-spacing: -.03125rem !important;
-        padding: 12px 24px !important;
-        width: 100% !important;
-    }
-
-    .select2-container--default .select2-selection--single .select2-selection__rendered {
-        color: #fff;
-    }
-
-    .consent-box {
-        background: #0C2A58;
-        border: 1px solid #AE9A66;
-        /* Gold border */
-        border-radius: 12px;
-        padding: 30px 25px;
-        margin: 20px auto;
-        max-width: 600px;
-        text-align: center;
-        color: #ddd;
-        transition: all 0.3s ease-in-out;
-    }
-
-    .consent-box h5 {
-        color: #fff;
-        font-weight: 600;
-        margin-bottom: 20px;
-    }
-
-    .consent-box .checkmark {
-        width: 40px;
-        height: 40px;
-        margin: 0 auto 20px auto;
-        border: 2px solid #777;
-        border-radius: 6px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: transparent;
-        font-size: 18px;
-        transition: all 0.3s ease-in-out;
-    }
-
-    .consent-box.active {
-        border-color: #AE9A66;
-        background: #12284a;
-    }
-
-    .consent-box.active .checkmark {
-        background: #d4af37;
-        border-color: #d4af37;
-        color: #0d1e36;
-        /* check icon visible */
-    }
-
-    .consent-box p {
-        margin-bottom: 12px;
-        font-size: 15px;
-        line-height: 1.6;
-    }
-
-    .consent-box p.highlight {
-        color: #d4af37;
-        font-weight: 500;
-    }
-
-    /* Checkbox switch style */
-    .form-check {
-        display: flex;
-        align-items: center;
-        gap: 40px;
-        margin-bottom: 1rem;
-    }
-
-    .form-check input[type="radio"] {
-        width: 25px;
-        height: 25px !important;
-        accent-color: #007bff;
-    }
-
-    .another_student {
-        display: none;
-    }
-
-    .another_student .form-label {
-        font-weight: 500;
-    }
-</style>
 @endsection
 
 @section('content')
-
+ <a href="{{ route('debit.form') }}" class="logo d-flex align-items-center m-auto" style="background: #f6f9fc;padding-top:10px;padding-bottom:10px;">
+    <img src="{{ asset('frontend/') }}/assets/img/logo.png" alt="" width="70" style="margin:auto;">
+</a>
 <section class="section">
 
-    <div class="container py-5">
+    <div class="container debitForm py-5">
 
         <!-- Progress Header -->
         <div class="progress-container">
@@ -350,7 +155,7 @@
                         </label>
                     </div> -->
 
-                   {{-- Hidden Form Card --}}
+                    {{-- Hidden Form Card --}}
                     <div class="form-card mt-3" id="otherStudentCard" style="display: none;">
                         <h4 class="mb-4 form-box-title">Other Student Details</h4>
                         <div id="studentRows">
@@ -396,8 +201,6 @@
 @endsection
 
 @section('script')
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<script src="{{ asset('frontend/assets/js/jquery.countrySelector.js') }}"></script>
 <script>
     $(document).ready(function() {
         $("input[name='more_student']").on("change", function() {
@@ -413,19 +216,19 @@
     });
 </script>
 <script>
-$(document).ready(function () {
-    // Add More
-    $("#addMore").click(function () {
-        // যদি form-card hidden থাকে, তাহলে প্রথমবার show করবে
-        if ($("#otherStudentCard").is(":hidden")) {
-            $("#otherStudentCard").show();
-        }
+    $(document).ready(function() {
+        // Add More
+        $("#addMore").click(function() {
+            // যদি form-card hidden থাকে, তাহলে প্রথমবার show করবে
+            if ($("#otherStudentCard").is(":hidden")) {
+                $("#otherStudentCard").show();
+            }
 
-        // মোট কয়টা row আছে গুনবো
-        let childCount = $("#studentRows .student-row").length + 2; // Child 2 থেকে শুরু
+            // মোট কয়টা row আছে গুনবো
+            let childCount = $("#studentRows .student-row").length + 2; // Child 2 থেকে শুরু
 
-        // নতুন row create করব
-        let newRow = `
+            // নতুন row create করব
+            let newRow = `
         <div class="row student-row">
             <div class="mb-3 col-lg-6">
                 <label class="form-label">Child ${childCount}: Full Name</label>
@@ -446,31 +249,30 @@ $(document).ready(function () {
         </div>
         `;
 
-        $("#studentRows").append(newRow);
-        updateChildLabels(); // Label re-index করব
-    });
+            $("#studentRows").append(newRow);
+            updateChildLabels(); // Label re-index করব
+        });
 
-    // Remove Row
-    $(document).on("click", ".removeRow", function () {
-        $(this).closest(".student-row").remove();
+        // Remove Row
+        $(document).on("click", ".removeRow", function() {
+            $(this).closest(".student-row").remove();
 
-        // যদি সব row remove হয়ে যায়, তাহলে পুরো card hide হবে
-        if ($("#studentRows .student-row").length === 0) {
-            $("#otherStudentCard").hide();
-        } else {
-            updateChildLabels(); // Row remove করলে re-index হবে
+            // যদি সব row remove হয়ে যায়, তাহলে পুরো card hide হবে
+            if ($("#studentRows .student-row").length === 0) {
+                $("#otherStudentCard").hide();
+            } else {
+                updateChildLabels(); // Row remove করলে re-index হবে
+            }
+        });
+
+        // Function to update child labels
+        function updateChildLabels() {
+            $("#studentRows .student-row").each(function(index) {
+                let childNumber = index + 2; // Child 2 থেকে শুরু
+                $(this).find("label.form-label:first").text(`Child ${childNumber}: Full Name`);
+            });
         }
     });
-
-    // Function to update child labels
-    function updateChildLabels() {
-        $("#studentRows .student-row").each(function (index) {
-            let childNumber = index + 2; // Child 2 থেকে শুরু
-            $(this).find("label.form-label:first").text(`Child ${childNumber}: Full Name`);
-        });
-    }
-});
-
 </script>
 <script>
     function toggleConsent(el) {

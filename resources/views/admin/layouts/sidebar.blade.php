@@ -197,6 +197,14 @@
             <span>Admission Form</span>
         </a>
         <ul class="sidebar-submenu">
+
+            <li>
+                <a href="{{ route('admin.student-school.index') }}">
+                    <iconify-icon icon="mdi:school" class="menu-icon"></iconify-icon>
+                    <span>School</span>
+                </a>
+            </li>
+
             <li>
                 <a href="{{ route('admin.student-groups.index') }}">
                     <iconify-icon icon="mdi:account-group-outline" class="menu-icon"></iconify-icon>
@@ -236,9 +244,9 @@
             </li>
 
             <li>
-                <a href="{{ route('admin.student-school.index') }}">
+                <a href="{{ route('admin.form-students.index') }}">
                     <iconify-icon icon="mdi:school" class="menu-icon"></iconify-icon>
-                    <span>School</span>
+                    <span>Form Submission</span>
                 </a>
             </li>
 

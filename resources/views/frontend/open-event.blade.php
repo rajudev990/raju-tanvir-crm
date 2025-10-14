@@ -1,13 +1,12 @@
 @extends('layouts.app')
 
-@section('title') Contact @endsection
+@section('title','Al-rushd Online School - Open Event')
 
-@section('css')
-
-@endsection
 
 @section('content')
-
+ <a href="{{ route('open-event') }}" class="logo d-flex align-items-center m-auto" style="background: #f6f9fc;padding-top:10px;padding-bottom:10px;">
+    <img src="{{ asset('frontend/') }}/assets/img/logo.png" alt="" width="70" style="margin:auto;">
+</a>
 <section class="section py-5">
     <div class="container">
 
@@ -24,7 +23,7 @@
         <div class="row d-flex justify-content-center">
             @foreach($item->items as $row)
             <div class="col-lg-4">
-                <div class="card mb-3" style="background:#0C2A58;">
+                <div class="card mb-3 p-0" style="background:#0C2A58;">
                     <div class="card-body p-4">
                         <div style="position: relative;">
                             <img src="{{Storage::url($row->image)}}" alt="" class="img-fluid rounded rounded-4">
@@ -78,7 +77,7 @@
         <div class="row d-flex justify-content-center">
             @foreach($item->items as $row)
             <div class="col-lg-4">
-                <div class="card mb-3" style="background:#0C2A58;">
+                <div class="card mb-3 p-0" style="background:#0C2A58;">
                     <div class="card-body p-4">
                         <div class="text-center py-3">
                             <span class="px-4 py-2 rounded rounded-5 text-light text-center" style="border: 1px solid #AE9A66">{{$row->textname}}</span>
