@@ -1,0 +1,664 @@
+/*  */
+.progress-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.progress {
+    height: 4px;
+    background-color: #2c3e50;
+    max-width: 70%;
+    margin: auto;
+}
+
+@media (max-width:576px) {
+    .progress {
+        max-width: 100%;
+    }
+}
+
+.progress-bar {
+    background-color: #AE9A66;
+    /* gold */
+}
+
+/*  */
+
+.select2-container--default .select2-selection--single {
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    background-color: #183e77 !important;
+    border: none !important;
+    border-radius: 8px !important;
+    color: #fff !important;
+    height: 50px !important;
+    letter-spacing: -.03125rem !important;
+    padding: 12px 24px !important;
+    width: 100% !important;
+}
+
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #fff;
+}
+
+.iti {
+    display: block !important;
+}
+
+.iti input {
+    padding-left: 95px !important;
+}
+
+.iti input:focus {
+    padding-left: 95px !important;
+}
+
+.iti--separate-dial-code .iti__selected-dial-code {
+    color: #FFF;
+}
+
+
+.page-title {
+    font-weight: 500;
+    font-style: Medium;
+    font-size: 36px;
+    line-height: 56px;
+    letter-spacing: 0%;
+    text-align: center;
+}
+
+.custom-btn {
+    padding: 15px 24px;
+    border: 0.5px solid #fff;
+    background: transparent;
+    color: #fff;
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.custom-btn.active {
+    background: #AE9A66 !important;
+    border-color: #AE9A66 !important;
+    color: #fff !important;
+}
+
+.first-btn {
+    border-radius: 99px;
+    padding: 15px 24px;
+    background: #AE9A66;
+    border: none;
+    color: #fff;
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.card {
+    background: #0C2A58;
+    border-radius: 16px;
+    padding: 40px 89px;
+}
+
+.book_a_call_text p {
+    font-size: 20px;
+    text-align: center;
+    font-weight: 400;
+    line-height: 28px;
+}
+
+/*  */
+.calendar-card {
+    background: #0C2A58;
+    border-radius: 16px;
+    padding: 40px 50px;
+}
+
+.calendar-card1 {
+    background: #0C2A58;
+    border-radius: 16px;
+    padding: 40px 50px;
+}
+
+.enquire-card {
+    background: #0C2A58;
+    border-radius: 16px;
+    padding: 40px 50px;
+}
+
+.enquire-card1 {
+    background: #0C2A58;
+    border-radius: 16px;
+    padding: 40px 50px;
+}
+
+.enquire-card2 {
+    background: #0C2A58;
+    border-radius: 16px;
+    padding: 40px 50px;
+}
+
+.referral-card {
+    background: #0C2A58;
+    border-radius: 16px;
+    padding: 40px 50px;
+}
+
+.referral-card1 {
+    background: #0C2A58;
+    border-radius: 16px;
+    padding: 40px 50px;
+}
+
+.referral-card2 {
+    background: #0C2A58;
+    border-radius: 16px;
+    padding: 40px 50px;
+}
+
+.calendar-header {
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.month-nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 10px 0;
+    background: #183E77;
+    padding: 8px;
+    border-radius: 99px;
+    color: #FFF;
+}
+
+.calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    gap: 8px;
+    margin-top: 10px;
+    color: #FFF !important;
+}
+
+.day {
+    padding: 10px;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+    color: #FFF;
+    font-size: 18px;
+}
+
+.day.selected-day {
+    background-color: #183e77;
+}
+
+.day:hover {
+    background: #284d7a;
+}
+
+.active-day {
+    background: #ae9a66;
+    color: #FFF;
+    font-weight: bold;
+}
+
+.form-select,
+.btn {
+    border-radius: 30px;
+}
+
+.btn-next {
+    background: #AE9A66;
+    color: #FFF;
+    padding: 15px 33px;
+    border-radius: 99px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.btn-next:hover {
+    background: #AE9A66;
+    color: #FFF;
+    padding: 15px 33px;
+    border-radius: 99px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.enquire_btn-next {
+    background: #AE9A66;
+    color: #FFF;
+    padding: 15px 33px;
+    border-radius: 99px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.enquire_btn-next:hover {
+    background: #AE9A66;
+    color: #FFF;
+    padding: 15px 33px;
+    border-radius: 99px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.referral_btn-next {
+    background: #AE9A66;
+    color: #FFF;
+    padding: 15px 33px;
+    border-radius: 99px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.referral_btn-next:hover {
+    background: #AE9A66;
+    color: #FFF;
+    padding: 15px 33px;
+    border-radius: 99px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.btn-cancel {
+    background: transparent;
+    border: 1px solid #ccc;
+    color: white;
+    padding: 15px 33px;
+    border-radius: 99px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.btn-cancel:hover {
+    background: transparent;
+    border: 1px solid #ccc;
+    color: white;
+    padding: 15px 33px;
+    border-radius: 99px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+@media (max-width:576px) {
+    .day {
+        padding: 4px;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        cursor: pointer;
+        color: #FFF;
+        font-size: 16px;
+    }
+
+    .calendar-card {
+        padding: 41px 25px;
+    }
+
+    .calendar-card1 {
+        padding: 41px 25px;
+    }
+
+    .card {
+        padding: 41px 25px;
+    }
+
+    .minutes_time {
+        font-size: 18px !important;
+    }
+
+    .calendar-header h4 {
+        font-size: 18px;
+    }
+
+    .first-btn,
+    .custom-btn {
+        padding: 7px 15px;
+        font-size: 16px;
+    }
+
+    .tab-content {
+        margin-top: 0px !important;
+    }
+
+    .section h3 {
+        font-size: 27px;
+        margin-bottom: 0px;
+    }
+}
+
+.minutes_time {
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 30px;
+    color: #AE9A66;
+    text-align: start;
+}
+
+/* শুরুতে লুকানো থাকবে */
+.calendar-card1 {
+    display: none;
+    position: relative;
+}
+
+/* Slide-in Animation */
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.calender_one_title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #AE9A66;
+}
+
+.calender_one_desc p {
+    font-size: 18px;
+    font-weight: 400;
+}
+
+
+/* Staff Application */
+.staff-form-section {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    background-image: url("{{ asset('frontend/assets/img/staff-admission-form-bg.png') }}");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+
+    /* Flexbox center */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+}
+
+.bg-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+.content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: #fff;
+    padding: 20px;
+    top: 70px;
+}
+
+.form-title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+.title-underline {
+    width: 350px;
+    height: 4px;
+    background-color: #fff;
+    margin: 0 auto;
+    opacity: 0.9;
+    border: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .staff-form-section {
+        height: 200px;
+    }
+
+    .form-title {
+        font-size: 2rem;
+    }
+
+    .title-underline {
+        width: 200px;
+    }
+}
+
+@media (max-width: 576px) {
+    .form-title {
+        font-size: 1.5rem;
+    }
+
+    .title-underline {
+        width: 200px;
+    }
+}
+
+#international,
+#uk {
+    display: none;
+}
+
+input[type="file"]::file-selector-button {
+    background-color: #183e77;
+    color: #fff;
+    border: none;
+    padding: 6px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* Debit Form */
+
+.debitForm .progress-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.debitForm .progress {
+    height: 4px;
+    background-color: #2c3e50;
+    max-width: 50%;
+    margin: auto;
+}
+
+@media (max-width:576px) {
+    .debitForm .progress {
+        max-width: 100%;
+    }
+}
+
+.debitForm .progress-bar {
+    background-color: #AE9A66;
+    /* gold */
+}
+
+.debitForm .form-card {
+    background: #0C2A58;
+    ;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.debitForm .form-label {
+    color: #dcdcdc;
+}
+
+.debitForm .form-control {
+    background: #0d1e36;
+    border: 1px solid #2c3e50;
+    color: #fff;
+    border-radius: 10px;
+}
+
+.debitForm .form-control:focus {
+    background: #0d1e36;
+    border-color: #d4af37;
+    box-shadow: none;
+    color: #fff;
+}
+
+.debitForm .btn-next {
+    background: #AE9A66;
+    border: none;
+    border-radius: 25px;
+    font-weight: bold;
+    color: #0a2342;
+    padding: 10px 30px;
+}
+
+.debitForm .btn-next:hover {
+    background: #AE9A66;
+    ;
+    border: none;
+    border-radius: 25px;
+    font-weight: bold;
+    color: #0a2342;
+    padding: 10px 30px;
+}
+
+.debitForm .btn-back {
+    background: transparent;
+    border: none;
+    color: #aaa;
+    margin-top: 10px;
+}
+
+.debitForm #formTitle {
+    font-size: 24px;
+    color: #FFF;
+    font-weight: 500;
+}
+
+.debitForm #progressText {
+    font-size: 16px;
+    color: #FFF;
+}
+
+.debitForm .form-box-title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 600;
+    color: #AE9A66;
+}
+
+.debitForm .step {
+    display: none;
+}
+
+.debitForm .step.active {
+    display: block;
+}
+
+.select2-container--default .select2-selection--single {
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    background-color: #183e77 !important;
+    border: none !important;
+    border-radius: 8px !important;
+    color: #fff !important;
+    height: 50px !important;
+    letter-spacing: -.03125rem !important;
+    padding: 12px 24px !important;
+    width: 100% !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #fff;
+}
+
+.debitForm .consent-box {
+    background: #0C2A58;
+    border: 1px solid #AE9A66;
+    /* Gold border */
+    border-radius: 12px;
+    padding: 30px 25px;
+    margin: 20px auto;
+    max-width: 600px;
+    text-align: center;
+    color: #ddd;
+    transition: all 0.3s ease-in-out;
+}
+
+.debitForm .consent-box h5 {
+    color: #fff;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.debitForm .consent-box .checkmark {
+    width: 40px;
+    height: 40px;
+    margin: 0 auto 20px auto;
+    border: 2px solid #777;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: transparent;
+    font-size: 18px;
+    transition: all 0.3s ease-in-out;
+}
+
+.debitForm .consent-box.active {
+    border-color: #AE9A66;
+    background: #12284a;
+}
+
+.debitForm .consent-box.active .checkmark {
+    background: #d4af37;
+    border-color: #d4af37;
+    color: #0d1e36;
+    /* check icon visible */
+}
+
+.debitForm .consent-box p {
+    margin-bottom: 12px;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.debitForm .consent-box p.highlight {
+    color: #d4af37;
+    font-weight: 500;
+}
+
+/* Checkbox switch style */
+.debitForm .form-check {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    margin-bottom: 1rem;
+}
+
+.debitForm .form-check input[type="radio"] {
+    width: 25px;
+    height: 25px !important;
+    accent-color: #007bff;
+}
+
+.debitForm .another_student {
+    display: none;
+}
+
+.debitForm .another_student .form-label {
+    font-weight: 500;
+}

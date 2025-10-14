@@ -30,7 +30,7 @@
                     _$this.empty();
 
                     $.each(_countries, function (i, country) {
-                        $("<option value=\"" + country[_codeProp] + "\">" + country[NAME] + "</option>")
+                        $("<option value=\"" + country[NAME] + "\">" + country[NAME] + "</option>")
                             .data("country", country)
                             .appendTo(_$this);
                     });

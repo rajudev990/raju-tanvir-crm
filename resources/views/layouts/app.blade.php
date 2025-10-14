@@ -6,7 +6,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Al-rushd Online School</title>
+    <title>@yield('title')</title>
     <meta name="description" content="">
     <meta name="keywords" content="">
 
@@ -22,9 +22,13 @@
     <link href="{{ asset('frontend/') }}/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
     <link href="{{ asset('frontend/') }}/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="{{ asset('frontend/assets/css/jquery-countryselector.min.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
 
     <!-- Main CSS File -->
     <link href="{{ asset('frontend/') }}/assets/css/main.css" rel="stylesheet">
+    <link href="{{ asset('frontend/') }}/assets/css/custom.css" rel="stylesheet">
     <style>
         /* Fullscreen container */
         #preloader {
@@ -82,7 +86,7 @@
         <div class="loader"></div>
     </div>
 
-    @include('layouts.header')
+    {{--@include('layouts.header')--}}
 
     <main class="main">
         @yield('content')
@@ -108,6 +112,12 @@
     <script src="{{ asset('frontend/') }}/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="{{ asset('frontend/assets/js/jquery.countrySelector.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"></script>
+
 
     <!-- Main JS File -->
     <script src="{{ asset('frontend/') }}/assets/js/main.js"></script>

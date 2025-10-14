@@ -1,5 +1,7 @@
 @extends('student.app')
 
+@section('title','Select Package')
+
 @section('student')
 
 <section>

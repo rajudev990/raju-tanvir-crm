@@ -1,5 +1,5 @@
 @extends('student.app')
-
+@section('title','Edit Parent"s Information')
 @section('student')
 
 <section>

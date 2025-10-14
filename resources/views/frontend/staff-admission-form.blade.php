@@ -1,123 +1,21 @@
 @extends('layouts.app')
 
+@section('title','Al-rushd Online School - Staff Application')
+
 @section('css')
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<link href="{{ asset('frontend/assets/css/jquery-countryselector.min.css') }}" rel="stylesheet" />
-<style>
-    .select2-container--default .select2-selection--single {
-        -webkit-appearance: none !important;
-        appearance: none !important;
-        background-color: #183e77 !important;
-        border: none !important;
-        border-radius: 8px !important;
-        color: #fff !important;
-        height: 50px !important;
-        letter-spacing: -.03125rem !important;
-        padding: 12px 24px !important;
-        width: 100% !important;
-    }
-
-    .select2-container--default .select2-selection--single .select2-selection__rendered {
-        color: #fff;
-    }
-
-
-    .staff-form-section {
-        position: relative;
-        width: 100%;
-        height: 300px;
-        background-image: url("{{ asset('frontend/assets/img/staff-admission-form-bg.png') }}");
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-attachment: scroll;
-
-        /* Flexbox center */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        overflow: hidden;
-    }
-
-    .bg-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 1;
-    }
-
-    .content {
-        position: relative;
-        z-index: 2;
-        text-align: center;
-        color: #fff;
-        padding: 20px;
-        top: 70px;
-    }
-
-    .form-title {
-        font-size: 3rem;
-        font-weight: 700;
-        margin-bottom: 20px;
-        color: #fff;
-    }
-
-    .title-underline {
-        width: 350px;
-        height: 4px;
-        background-color: #fff;
-        margin: 0 auto;
-        opacity: 0.9;
-        border: none;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-        .staff-form-section {
-            height: 200px;
+    <style>
+        @media (min-width:768px) {
+            .progress{
+                max-width: 45%;
+            }
         }
-
-        .form-title {
-            font-size: 2rem;
-        }
-
-        .title-underline {
-            width: 200px;
-        }
-    }
-
-    @media (max-width: 576px) {
-        .form-title {
-            font-size: 1.5rem;
-        }
-
-        .title-underline {
-            width: 200px;
-        }
-    }
-
-    #international,
-    #uk {
-        display: none;
-    }
-
-    input[type="file"]::file-selector-button {
-        background-color: #183e77;
-        color: #fff;
-        border: none;
-        padding: 6px 15px;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: 0.3s;
-    }
-</style>
+    </style>
 @endsection
 
 @section('content')
+ <a href="{{ route('staff-admission') }}" class="logo d-flex align-items-center m-auto" style="background: #f6f9fc;padding-top:10px;padding-bottom:10px;">
+    <img src="{{ asset('frontend/') }}/assets/img/logo.png" alt="" width="70" style="margin:auto;">
+</a>
 <section class="section">
     <div class="container-fluid">
         <div class="row justify-content-center">
@@ -134,6 +32,17 @@
             <!-- Title -->
             <div class="row pt-3">
                 <div class="col-lg-8 m-auto">
+
+                    <!-- Progress Header (Original Design) -->
+                    <div class="progress-container mb-4">
+                        <h5 id="formTitle" class="mb-0 text-light">Estimated time remaining: 4 minutes</h5>
+                        <div class="progress mt-2">
+                            <div class="progress-bar" id="progressBar" role="progressbar" style="width: 0%;"></div>
+                        </div>
+                        <small id="progressText" class="text-light">0%</small>
+                    </div>
+
+
                     <h2 class="form-heading mb-0">Staff Application Form</h2>
                     <div id="success-message" class="mt-3"></div>
                 </div>
@@ -416,7 +325,7 @@
                                             <span class="btn-text">Send</span>
                                             <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
                                         </button>
-                                       
+
                                     </div>
 
                                 </div>
@@ -440,8 +349,6 @@
 
 @section('script')
 
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<script src="{{ asset('frontend/assets/js/jquery.countrySelector.js') }}"></script>
 <script>
     $(document).ready(function() {
         // Initialize select2
@@ -623,6 +530,64 @@
             toggleBankType();
         });
     });
+</script>
+<script>
+$(document).ready(function() {
+
+    function updateProgress() {
+        const countedGroups = {};
+        let totalFields = 0;
+        let filledFields = 0;
+
+        $("#staffApplicationForm input, #staffApplicationForm select, #staffApplicationForm textarea").each(function() {
+            const $field = $(this);
+            if ($field.is("[type=hidden]")) return;
+
+            const type = $field.attr("type");
+            const name = $field.attr("name");
+
+            if ((type === "checkbox" || type === "radio") && name) {
+                // Count radio/checkbox groups once
+                if (!countedGroups[name]) {
+                    countedGroups[name] = true;
+                    totalFields++;
+                    if ($(`input[name='${name}']:checked`).length > 0) filledFields++;
+                }
+            } else if (type === "file") {
+                totalFields++;
+                if ($field[0].files.length > 0) filledFields++;
+            } else {
+                totalFields++;
+                if ($field.val() && $field.val().trim() !== "") filledFields++;
+            }
+        });
+
+        const progress = totalFields ? Math.round((filledFields / totalFields) * 100) : 0;
+        $(".progress-bar").css("width", progress + "%");
+        $(".progress-container small").text(progress + "%");
+    }
+
+    // Trigger update on all interactions
+    $(document).on("input change", "#staffApplicationForm input, #staffApplicationForm select, #staffApplicationForm textarea", updateProgress);
+
+    // Run once on page load
+    updateProgress();
+
+    // ✅ Reset progress bar on successful form submission
+    $("#staffApplicationForm").on("submit", function(e) {
+        e.preventDefault(); // remove this line if using normal form submission
+
+        // Simulate AJAX or normal submit
+        // Example AJAX (optional)
+        // $.post($(this).attr('action'), $(this).serialize(), function() { ... });
+
+        // After submission, reset the form & progress
+        this.reset();
+        $(".progress-bar").css("width", "0%");
+        $(".progress-container small").text("0%");
+    });
+
+});
 </script>
 
 

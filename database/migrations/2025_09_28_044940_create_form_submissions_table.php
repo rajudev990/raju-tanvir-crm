@@ -63,7 +63,7 @@ return new class extends Migration
             // Step 3 (Students - Multiple, আলাদা টেবিল দরকার হবে)
             // এখানে শুধু parent id রাখছি
             // children টেবিলে child records save হবে
-            $table->json('students')->nullable();
+            $table->json('student')->nullable();
 
             // Step 4
             $table->string('health_care')->nullable();

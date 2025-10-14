@@ -1,49 +1,12 @@
 @extends('layouts.app')
 
-@section('title') Contact @endsection
+@section('title','Al-rushd Online School - Open Event Form')
 
-@section('css')
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<link href="{{ asset('frontend/assets/css/jquery-countryselector.min.css') }}" rel="stylesheet" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
-<style>
-    .select2-container--default .select2-selection--single {
-        -webkit-appearance: none !important;
-        appearance: none !important;
-        background-color: #183e77 !important;
-        border: none !important;
-        border-radius: 8px !important;
-        color: #fff !important;
-        height: 50px !important;
-        letter-spacing: -.03125rem !important;
-        padding: 12px 24px !important;
-        width: 100% !important;
-    }
-
-    .select2-container--default .select2-selection--single .select2-selection__rendered {
-        color: #fff;
-    }
-
-    .iti {
-        display: block !important;
-    }
-
-    .iti input {
-        padding-left: 95px !important;
-    }
-
-    .iti input:focus {
-        padding-left: 95px !important;
-    }
-
-    .iti--separate-dial-code .iti__selected-dial-code {
-        color: #FFF;
-    }
-</style>
-@endsection
 
 @section('content')
-
+ <a href="{{ route('open-event') }}" class="logo d-flex align-items-center m-auto" style="background: #f6f9fc;padding-top:10px;padding-bottom:10px;">
+    <img src="{{ asset('frontend/') }}/assets/img/logo.png" alt="" width="70" style="margin:auto;">
+</a>
 <section class="section py-5">
     <div class="container">
         <div class="row">
@@ -87,7 +50,7 @@
         <div class="row">
             <div class="col-lg-7 m-auto">
 
-                <div class="card rounded rounded-4" style="background:#0C2A58;">
+                <div class="card rounded rounded-4 p-0" style="background:#0C2A58;">
                     <div class="card-body p-5">
 
                         <form id="openeventForm" action="{{ route('event-store') }}" method="post">
@@ -205,11 +168,6 @@
 @endsection
 
 @section('script')
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<script src="{{ asset('frontend/assets/js/jquery.countrySelector.js') }}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"></script>
-
 <script>
 $(document).ready(function() {
 

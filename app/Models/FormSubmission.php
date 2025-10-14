@@ -15,7 +15,7 @@ class FormSubmission extends Model
 
 
     protected $casts = [
-        'students' => 'array',
+        // 'students' => 'array',
         'packages' => 'array',
     ];
 }

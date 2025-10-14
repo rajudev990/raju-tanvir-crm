@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title') Debit Form Successfully @endsection
+@section('title','Al-rushd Online School - Debit Form Successfully')
 
 @section('css')
 <style>
@@ -31,7 +31,9 @@
 @endsection
 
 @section('content')
-
+ <a href="{{ route('debit.form') }}" class="logo d-flex align-items-center m-auto" style="background: #f6f9fc;padding-top:10px;padding-bottom:10px;">
+    <img src="{{ asset('frontend/') }}/assets/img/logo.png" alt="" width="70" style="margin:auto;">
+</a>
 <section class="section">
 
     <div class="container py-5">

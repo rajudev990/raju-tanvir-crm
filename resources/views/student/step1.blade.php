@@ -1,5 +1,7 @@
 @extends('student.app')
 
+@section('title','Select School')
+
 @section('student')
 
 <section>
@@ -8,12 +10,13 @@
             <div class="col-lg-4 m-auto">
                 <!-- Progress Header -->
                 <div class="progress-container mb-4">
-                    <h5 class="mb-0 text-light title">Estimated time remaining: 12 minutes</h5>
+                    <h5 class="mb-0 text-light title" id="progressTitle">Estimated time remaining: 10 minutes</h5>
                     <div class="progress mt-2">
-                        <div class="progress-bar" id="progressBar" role="progressbar" style="width: 10%;"></div>
+                        <div class="progress-bar" id="progressBar" role="progressbar" style="width: 0%;"></div>
                     </div>
-                    <small id="progressText" class="text-light">10%</small>
+                    <small id="progressText" class="text-light">0%</small>
                 </div>
+
             </div>
         </div>
         <div class="row mb-4">
@@ -52,7 +55,7 @@
 
             <!-- Error Message -->
             <div id="schoolError" class="row mt-2 d-none">
-                <div class="col-lg-8 m-auto">
+                <div class="col-lg-4 m-auto">
                     <div class="alert alert-danger">Please select a school before continuing.</div>
                 </div>
             </div>
@@ -83,6 +86,19 @@
 
         // Hide error message if shown
         document.getElementById('schoolError').classList.add('d-none');
+
+        updateProgress(true);
+
+    }
+    const currentStepPercent = 14; // ≈ 14.28%
+
+    function updateProgress(isSelected) {
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+
+        let percent = isSelected ? currentStepPercent : 0;
+        progressBar.style.width = percent + '%';
+        progressText.innerText = percent + '%';
     }
 
     // Form submit validation
@@ -105,4 +121,6 @@
         }
     });
 </script>
+
+
 @endsection

@@ -1,5 +1,7 @@
 @extends('student.app')
 
+@section('title','Preview Information')
+
 @section('student')
 
 <section>

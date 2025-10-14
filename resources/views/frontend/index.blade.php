@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title','Al-rushd Online School - Home')
+
 @section('css')
 <style>
    .hero-section {
@@ -113,6 +115,12 @@
 @endsection
 
 @section('content')
+
+ <a href="{{ url('/') }}" class="logo d-flex align-items-center m-auto" style="background: #f6f9fc;padding-top:10px;padding-bottom:10px;">
+    <img src="{{ asset('frontend/') }}/assets/img/logo.png" alt="" width="70" style="margin:auto;">
+</a>
+
+
 <section class="hero-section">
   <div id="particles-js"></div>
 
@@ -121,7 +129,7 @@
     <div class="hero-buttons">
       <a href="{{ route('staff-admission') }}" class="btn btn-staff">Staff Admission</a>
       <a href="{{ url('student-admission/step/1') }}" class="btn btn-student">Student Admission</a>
-      <a href="{{ route('contact') }}" class="btn btn-staff">Contact Us</a>
+      <a href="{{ route('book-a-call') }}" class="btn btn-staff">Contact Us</a>
       <a href="{{ route('debit.form') }}" class="btn btn-student">Debit Form</a>
     </div>
     <div class="hero-images">

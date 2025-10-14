@@ -1,5 +1,7 @@
 @extends('student.app')
 
+@section('title','Edit Child Information')
+
 @section('student')
 <section>
     <div class="container py-5">

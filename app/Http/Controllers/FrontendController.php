@@ -34,6 +34,8 @@ use App\Models\OpenEventForm;
 use App\Models\Referral;
 use App\Models\StaffAdmissionForm;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Http;
+
 
 
 class FrontendController extends Controller
@@ -49,6 +51,75 @@ class FrontendController extends Controller
 
        
     }
+
+    // Book a call
+    // public function bookCall()
+    // {
+    //     $bookedSlots = Metting::select('date', 'time')->get();
+    //     return view('contact.book-call',compact('bookedSlots'));
+    // }
+
+    public function fetchEvents()
+    {
+        // Fetch the Calendly API token from the .env file
+        $calendlyToken = env('CALENDLY_TOKEN');
+
+        // Make a GET request to get the list of users
+        $usersResponse = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $calendlyToken,
+            'Content-Type' => 'application/json',
+        ])->get('https://api.calendly.com/users');
+
+        dd($usersResponse->json());
+
+        if ($usersResponse->successful()) {
+            // Parse the user data
+            $users = $usersResponse->json()['collection'];
+
+            $allEvents = [];
+
+            // Loop through each user to get their scheduled events
+            foreach ($users as $user) {
+                $userEventsResponse = Http::withHeaders([
+                    'Authorization' => 'Bearer ' . $calendlyToken,
+                    'Content-Type' => 'application/json',
+                ])->get("https://api.calendly.com/scheduled_events?user={$user['uri']}");
+                
+
+                if ($userEventsResponse->successful()) {
+                    // Collect events for the current user
+                    $events = $userEventsResponse->json()['collection'];
+                    $allEvents[] = [
+                        'user' => $user,
+                        'events' => $events,
+                    ];
+                }
+            }
+
+            // Return the events data to a view
+            return view('calendly.users-events', compact('allEvents'));
+        } else {
+            // Handle errors if fetching users failed
+            return back()->with('error', 'Failed to fetch users from Calendly.');
+        }
+    }
+
+    public function bookCall()
+    {
+        return view('contact.book-call-calendly');
+    }
+
+    public function enquireNow()
+    {
+        return view('contact.enquire');
+    }
+    public function referral()
+    {
+        return view('contact.referral');
+    }
+
+
+
 
     public function contact()
     {
